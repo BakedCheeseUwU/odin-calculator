@@ -58,12 +58,40 @@ class Calculator {
     this.operation = undefined;
   }
 
-  updateDisplay() {
-    this.currentOperandTextElement.innerText = this.currentOperand;
-    if (this.operation) {
-      this.previousOperandTextElement.innerText = `${this.previousOperand} ${this.operation}`;
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]);
+    const decimalDigits = stringNumber.split(".")[1];
+
+    let integerDisplay;
+
+    if (isNaN(integerDigits)) {
+      return "";
     } else {
-      this.previousOperandTextElement.innerText = this.previousOperand;
+      integerDisplay = integerDigits.toLocaleString("en");
+    }
+
+    console.log(integerDisplay);
+    console.log(decimalDigits);
+    if (decimalDigits != null) {
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
+  }
+
+  updateDisplay() {
+    this.currentOperandTextElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
+    if (this.operation) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(
+        this.previousOperand
+      )} ${this.operation}`;
+    } else {
+      this.previousOperandTextElement.innerText = this.getDisplayNumber(
+        this.previousOperand
+      );
     }
   }
 }
